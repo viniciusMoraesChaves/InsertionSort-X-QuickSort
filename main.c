@@ -2,7 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define tam 32000
+#define tam 500000
 #define vet 20
 
 typedef struct item{
@@ -91,7 +91,7 @@ int particaoMEIO(item *v, int LI, int LS){
             d--;
         }
     }
-return e;
+    return e;
 }
 
 void quickSortMEIO_Auxiliar(item *v, int LI, int LS){
@@ -128,7 +128,8 @@ int particaoLS(item *v, int LI, int LS){
     aux = v[LS];
     v[LS] = v[e];
     v[e] = aux;
-return e;
+    
+    return e;
 }
 
 void quickSortLS_Auxiliar(item *v, int LI, int LS){
@@ -146,8 +147,6 @@ void quickSortLS(item *v, int LI, int LS){
     printf(" %.4f s      ", (double)(end_time - start_time) / CLOCKS_PER_SEC);
 }
 
-
-
 int randomIntNumber(int min, int max){
     return min + rand() %(max - min + 1);
 }
@@ -157,15 +156,13 @@ double randomDouble(double min, double max){
     return min + r * (max - min);
 }
 
-
 void random(item v[]){
     for(int i = 0; i < tam; i++){
-        v[i].chave = randomIntNumber(100000, 300000);       //perguntar se tem que ter intervalo nessa fun��o
-        v[i].valor = randomDouble(100000, 500000); // fazer fun��o para gerar numero real aleatorio
+        v[i].chave = randomIntNumber(100000, 300000);       
+        v[i].valor = randomDouble(100000, 500000); 
     }
 }
 
-//arrumar isso aq
 item * crescente(item v[]){
     int inicio = randomIntNumber(100000, 300000);
     for(int i = 0; i < tam; i++){
@@ -183,7 +180,6 @@ void printVetor(item v[]) {
     }
 }
 
-
 int main(){
     int semente = 2202;
     item *v = (item *)malloc(tam * sizeof(item));
@@ -192,12 +188,10 @@ int main(){
         return 1;
     }
 
-
-printf("\t Crescente \n      insSort        Quick[Li]      Quick[Meio]    Quick[Ls]\n");
+    printf("\t Crescente \n      insSort        Quick[Li]      Quick[Meio]    Quick[Ls]\n");
 
     for(int i = 0; i < vet; i++){
         printf("#%2d: ", i+1);
-
 
         srand(semente + i);
         crescente(v);
@@ -220,10 +214,8 @@ printf("\t Crescente \n      insSort        Quick[Li]      Quick[Meio]    Quick[
 
     printf("\n\t Aleatorio \n      insSort        Quick[Li]      Quick[Meio]    Quick[Ls]\n");
 
-
     for(int i = 0; i < vet; i++){
         printf("#%2d: ", i+1);
-
 
         srand(semente + i);
         random(v);
@@ -244,141 +236,6 @@ printf("\t Crescente \n      insSort        Quick[Li]      Quick[Meio]    Quick[
         printf("\n");
     }
 
-
-/*
-//20 insertion sort crescentes
-for(int i=0; i< vet; i++){
-    item *v = (item *)malloc(tam * sizeof(item));
-    if(v == NULL){
-        fprintf(stderr, "Erro de aloca��o de mem�ria!\n");
-        return 1;
-    }
-
-    srand(semente + i);
-    crescente(v);
-    printf("| InsertionSort | (Crescente) | #%d: ", i + 1);
-    insertionSort(v, tam);
-
+    free(v);
+    return 0;
 }
-printf("----------------------------------------\n");
-
-//20insertion sorts aleatorios
-for(int i=0; i< vet; i++){
-    item *v = (item *)malloc(tam * sizeof(item));
-    if(v == NULL){
-        printf("Erro de aloca��o de mem�ria!\n");
-        return 1;
-    }
-
-    srand(semente + i);
-    random(v);
-
-    printf("| InsertionSort | (aleatorio) | #%d: ", i + 1);
-    insertionSort(v, tam);
-}
-
-printf("----------------------------------------\n");
-
-//20quicksorts crescente [Li]
-for(int i = 0; i < vet; i++){
-    item *v = (item *)malloc(tam * sizeof(item));
-    if(v == NULL){
-        printf("Erro de aloca��o de mem�ria!\n");
-        return 1;
-    }
-    srand(semente + i);
-    crescente(v);
-
-    printf("| Quicksort[LI] | (Crescente) | #%d: ", i + 1);
-    quickSortLI(v, 0, tam-1);
-}
-
-printf("----------------------------------------\n");
-
-//20quicksorts aleatorio [Li]
-for(int i = 0; i < vet; i++){
-    item *v = (item *)malloc(tam * sizeof(item));
-    if(v == NULL){
-        printf("Erro de aloca��o de mem�ria!\n");
-        return 1;
-    }
-    srand(semente + i);
-    random(v);
-
-    printf("| Quicksort[LI] | (aleatorio) | #%d: ", i + 1);
-    quickSortLI(v, 0, tam-1);
-}
-
-printf("----------------------------------------\n");
-
-//20quicksorts crescente [meio]
-for(int i = 0; i < vet; i++){
-    item *v = (item *)malloc(tam * sizeof(item));
-    if(v == NULL){
-        printf("Erro de aloca��o de mem�ria!\n");
-        return 1;
-    }
-    srand(semente + i);
-    crescente(v);
-
-    printf("| Quicksort[MEIO] | (Crescente) | #%d: ", i + 1);
-    quickSortMEIO(v, 0, tam-1);
-}
-
-printf("----------------------------------------\n");
-
-//20quicksorts aleatorio [meio]
-for(int i = 0; i < vet; i++){
-    item *v = (item *)malloc(tam * sizeof(item));
-    if(v == NULL){
-        printf("Erro de aloca��o de mem�ria!\n");
-        return 1;
-    }
-    srand(semente + i);
-    random(v);
-
-    printf("| Quicksort[MEIO] | (Aleatorio) | #%d: ", i + 1);
-    quickSortMEIO(v, 0, tam-1);
-}
-
-printf("----------------------------------------\n");
-
-//20quicksorts crescente [Ls]
-for(int i = 0; i < vet; i++){
-    item *v = (item *)malloc(tam * sizeof(item));
-    if(v == NULL){
-        printf("Erro de aloca��o de mem�ria!\n");
-        return 1;
-    }
-    srand(semente + i);
-    crescente(v);
-
-    printf("| Quicksort[LS] | (Crescente) | #%d: ", i + 1);
-    quickSortLS(v, 0, tam-1);
-}
-
-printf("----------------------------------------\n");
-
-//20quicksorts aleatorio [Ls]
-for(int i = 0; i < vet; i++){
-    item *v = (item *)malloc(tam * sizeof(item));
-    if(v == NULL){
-        printf("Erro de aloca��o de mem�ria!\n");
-        return 1;
-    }
-    srand(semente + i);
-    random(v);
-
-    printf("| Quicksort[LS] | (Aleatorio) | #%d: ", i + 1);
-    quickSortLS(v, 0, tam-1);
-}
-*/
-free(v);
-
-return 0;
-
-}
-///remover vetores dos la�os e dar free(v) nele dps
-///arrumar parti��o LS
-///arrumar parti��o MEIO
-///fazer la�o aleat�rio(INSERTION SORT, QUICKSORT[LI], QUICKSORT[MEIO], QUICKSORT[LS])
